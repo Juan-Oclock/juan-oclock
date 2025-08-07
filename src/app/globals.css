@@ -28,6 +28,26 @@ body {
   scroll-behavior: smooth;
 }
 
+/* GSAP ScrollSmoother styles */
+#smooth-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
+#smooth-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  will-change: transform;
+}
+
 .gradient-text {
   background: linear-gradient(135deg, #FFD700, #FFA500);
   -webkit-background-clip: text;
