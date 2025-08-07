@@ -39,7 +39,7 @@ export default function AnimatedText({
           start: "top 50%",
           end: "top 40%",
           scrub: 1,
-          markers: true
+          markers: false
         }
       });
 
