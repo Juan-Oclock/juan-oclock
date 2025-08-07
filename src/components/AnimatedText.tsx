@@ -27,11 +27,9 @@ export default function AnimatedText({
       const chars = charsRef.current.filter(Boolean);
       if (chars.length === 0) return;
 
-      // Set initial color and font-weight using inline style
-      chars.forEach(char => {
-        char.style.color = "#403f3f";
-        char.style.fontWeight = "400";
-        char.style.transition = "color 0.3s ease, font-weight 0.3s ease";
+      // Set initial state with much darker gray
+      gsap.set(chars, {
+        color: "#1a1a1a"
       });
 
       // Mobile fallback - use IntersectionObserver
@@ -43,10 +41,11 @@ export default function AnimatedText({
             entries.forEach(entry => {
               if (entry.isIntersecting) {
                 // Animate all characters at once on mobile
-                chars.forEach((char, index) => {
-                  setTimeout(() => {
-                    char.style.color = "#ffffff";
-                  }, index * 50);
+                gsap.to(chars, {
+                  color: "#ffffff",
+                  duration: 1.5,
+                  stagger: 0.05,
+                  ease: "power2.out"
                 });
                 observer.unobserve(entry.target);
               }
@@ -61,31 +60,31 @@ export default function AnimatedText({
 
       // Desktop ScrollTrigger animation
       try {
-        const tl = gsap.timeline({
+        gsap.to(chars, {
+          color: "#ffffff",
+          duration: 1,
+          stagger: 0.03,
+          ease: "none",
           scrollTrigger: {
             trigger: containerRef.current,
             start: "top 80%",
             end: "top 20%",
-            scrub: 0.5,
+            scrub: 1,
             markers: false,
-            onUpdate: (self) => {
-              const progress = Math.max(0, Math.min(1, self.progress));
-              chars.forEach((char, index) => {
-                const charProgress = Math.max(0, Math.min(1, (progress * chars.length - index) / chars.length));
-                if (charProgress > 0) {
-                  char.style.color = `rgba(255, 255, 255, ${charProgress})`;
-                }
-              });
+            onComplete: () => {
+              // Ensure all characters are white when animation completes
+              gsap.set(chars, { color: "#ffffff" });
             }
           }
         });
       } catch (error) {
         console.error('ScrollTrigger animation failed:', error);
         // Fallback to simple animation
-        chars.forEach((char, index) => {
-          setTimeout(() => {
-            char.style.color = "#ffffff";
-          }, index * 100);
+        gsap.to(chars, {
+          color: "#ffffff",
+          duration: 1.5,
+          stagger: 0.05,
+          ease: "power2.out"
         });
       }
     };
@@ -102,18 +101,21 @@ export default function AnimatedText({
     <div ref={containerRef} className={className}>
       {text.split(" ").map((word, wordIndex) => (
         <span key={wordIndex} className="inline-block whitespace-nowrap">
-          {word.split("").map((char, charIndex) => (
-            <span
-              key={`${wordIndex}-${charIndex}`}
-              ref={(el) => {
-                if (el) charsRef.current[wordIndex * 1000 + charIndex] = el;
-              }}
-              className="inline-block"
-              style={{ color: "#403f3f", fontWeight: "400" }}
-            >
-              {char}
-            </span>
-          ))}
+          {word.split("").map((char, charIndex) => {
+            const globalIndex = text.split(" ").slice(0, wordIndex).join(" ").length + (wordIndex > 0 ? 1 : 0) + charIndex;
+            return (
+              <span
+                key={`${wordIndex}-${charIndex}`}
+                ref={(el) => {
+                  if (el) charsRef.current[globalIndex] = el;
+                }}
+                className="inline-block"
+                style={{ color: "#1a1a1a" }}
+              >
+                {char}
+              </span>
+            );
+          })}
           {wordIndex < text.split(" ").length - 1 && (
             <span className="inline-block" style={{ width: "0.3em" }}></span>
           )}
