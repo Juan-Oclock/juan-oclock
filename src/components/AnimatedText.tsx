@@ -70,11 +70,11 @@ export default function AnimatedText({
             start: "top 80%",
             end: "top 20%",
             scrub: 1,
-            markers: false,
-            onComplete: () => {
-              // Ensure all characters are white when animation completes
-              gsap.set(chars, { color: "#ffffff" });
-            }
+            markers: false
+          },
+          onComplete: () => {
+            // Ensure all characters are white when animation completes
+            gsap.set(chars, { color: "#ffffff" });
           }
         });
       } catch (error) {
