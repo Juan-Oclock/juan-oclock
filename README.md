@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Juan Oclock portfolio
 
-## Getting Started
+The side-project portfolio for `juan-oclock.com`, built in the existing `Juan-Oclock/juan-oclock` Next.js repository. Hero, About, one expandable project collection, contact, and footer.
 
-First, run the development server:
+## Local development
 
-```bash
+```sh
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+For a production preview:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```sh
+npm run build
+npm run start -- --hostname 127.0.0.1 --port 4173
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Do not run a development server and a production build concurrently in the same checkout; both use `.next`.
 
-## Learn More
+## Editing
 
-To learn more about Next.js, take a look at the following resources:
+- `src/data/projects.ts`: released project content and external destinations. Add entries to extend the grid. For a future web release, add its platform field and render that in Projects instead of the current iOS label.
+- `src/components/Projects.tsx`: the non-clickable upcoming web-app row.
+- `src/components/{Hero,About,Contact,Footer}.tsx`: narrative and contact copy.
+- `src/app/globals.css`: responsive layout, spacing, Manrope type, dark palette, focus states.
+- `src/components/PortfolioMotion.tsx`: native-scroll GSAP motion. The portrait remains steady. Hero copy enters with a subtle stagger; sections reveal on scroll and project imagery drifts gently on desktop only. Reduced motion is static. Effects clean up across breakpoint changes and unmount.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Checks
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```sh
+npm test
+npm run typecheck
+npm run lint
+npm run build
+```
 
-## Deploy on Vercel
+See `design-qa.md` for screenshots, visual comparisons, tested interactions, and verification limits. Production deploys from `main` in `Juan-Oclock/juan-oclock` to the existing Vercel project `juan-oclock`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Next.js is updated to the patched 15.5 release line. A PostCSS override keeps its transitive parser on the patched 8.5 release line; the lockfile records the tested dependencies.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Assets
+
+Manrope body and display type is self-hosted, with their SIL Open Font Licenses in `public/fonts/`. Phosphor icons come from the existing react-icons dependency.
+
+The full-width hero uses an AI-expanded version of Juan’s supplied portrait, composed to match the approved mockup. The image is an optimized WebP; text and directional dark gradients remain separate responsive HTML/CSS. About uses Juan’s supplied 2.1-second clip, converted to a silent 720px H.264 MP4 with continuous looping, a poster, pause/play control, and reduced-motion preference support. A downloadable GIF is also available in public/videos. Earlier landscape-layer and portrait assets are retained but no longer drive the hero. Product imagery comes from Juan's existing CalorieCue and Taqvo landing-page assets; it retains their actual product UI rather than the illustrative UI in the generated design reference. Optimized images live in `public/images/portfolio`. The one-off source preparation script is retained in the parent workspace's `design` folder, not needed for installation or deployment.
+
+The contact form sends through a server-only Resend endpoint when configured. It validates submissions, preserves text on failure, and includes basic spam safeguards. Follow `docs/contact-email-setup.md` to set the API key and verified sender locally and in Vercel. Until configured, no email is sent; the form shows a helpful error and the direct email link remains available.

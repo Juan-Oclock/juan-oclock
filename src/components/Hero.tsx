@@ -1,72 +1,23 @@
-"use client";
-
-import { useEffect, useRef } from "react";
-import { gsap } from "gsap";
+import Image from 'next/image';
+import { PiArrowDown } from 'react-icons/pi';
 
 export default function Hero() {
-  const textRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!textRef.current) return;
-
-    // Create array of spans for each character in the animated text
-    const text = textRef.current;
-    const characters = text.querySelectorAll('.char');
-
-    gsap.set(characters, { 
-      opacity: 0 
-    });
-
-    gsap.to(characters, {
-      opacity: 1,
-      duration: 1.2,
-      stagger: 0.08,
-      ease: "power2.out",
-      delay: 0.5
-    });
-  }, []);
-
-  const renderAnimatedText = (text: string, className: string = "", animate: boolean = false) => {
-    if (animate) {
-      return (
-        <span className={className} style={{ color: "#fed42a" }}>
-          {text.split('').map((char, index) => (
-            <span key={index} className="char inline-block">
-              {char === ' ' ? '\u00A0' : char}
-            </span>
-          ))}
-        </span>
-      );
-    }
-    return <span className={className}>{text}</span>;
-  };
-
   return (
-    <section className="h-[70vh] flex items-center justify-start relative overflow-hidden">
-      <div className="absolute inset-0">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="w-full h-full object-cover"
-        >
-          <source src="/sparking-dribble.webm" type="video/webm" />
-        </video>
-        <div className="absolute inset-0 bg-black/50"></div>
+    <section className="hero" aria-labelledby="hero-title" data-hero>
+      <div className="hero-portrait" aria-hidden="true">
+        <Image src="/images/portfolio/juan-hero-wide.webp" alt="" fill priority sizes="100vw" />
       </div>
-      
-      <div className="relative z-10 w-full flex justify-center px-6">
-        <div className="max-w-[43.75rem] w-full text-left">
-          
-          <div ref={textRef} className="mt-8">
-            <p className="text-3xl md:text-5xl text-white uppercase leading-[1.1em]">
-              {renderAnimatedText("FROM IDEA TO", "font-light")}<br />
-              {renderAnimatedText('"WAIT, IT WORKS".', "font-medium", true)}
-            </p>
-          </div>
-          
-        </div>
+      <div className="hero-portrait-shade" aria-hidden="true" />
+      <div className="hero-copy content-width" data-hero-intro>
+        <p className="eyebrow" data-intro>Developer. Dad. Curious builder.</p>
+        <h1 id="hero-title" data-intro>From idea to<br /><span>“wait, it works.”</span></h1>
+        <p className="hero-description" data-intro>I turn coffee and questionable ideas into apps.<br className="desktop-break" /> Some even make it out of my laptop.</p>
+        <div data-intro><a href="#portfolio" className="button button-light">Explore my projects <PiArrowDown aria-hidden="true" /></a></div>
+      </div>
+      <div className="hero-project-notes content-width">
+        <a href="https://caloriecue.app" target="_blank" rel="noopener noreferrer"><span>Out in the world</span><strong>CalorieCue</strong><p>Published · iOS</p></a>
+        <a href="https://taqvo.app" target="_blank" rel="noopener noreferrer"><span>Taking its first laps</span><strong>Taqvo</strong><p>TestFlight · iOS</p></a>
+        <a href="#portfolio"><span>Somewhere in my tabs</span><strong>The next side quest</strong><p>Web app · Coming soon</p></a>
       </div>
     </section>
   );
