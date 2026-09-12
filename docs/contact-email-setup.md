@@ -24,7 +24,7 @@ Resend's `onboarding@resend.dev` sender is testing-only and can send only to the
 - Same-origin requests only; hidden honeypot rejects basic form bots. Email body is plain text, so submitted HTML is not executed.
 - Per-instance best-effort limits: 5 attempts per IP per 10 minutes on Vercel, 30 total per instance. Local development uses one shared bucket. This is not a durable distributed limit: cold starts and multiple instances reset/split counters. Configure Vercel firewall rate limiting or a shared limiter before relying on this against sustained automated abuse.
 - Resend request times out after 10 seconds; browser after 15 seconds. A stable idempotency key is reused for unchanged retries within the page session to avoid duplicate provider sends. The key changes after successful submission or edits.
-- Submit is disabled while sending. Success clears the form only after Resend accepts an email and returns an ID. Errors preserve fields and leave the direct email link available.
+- Submit is disabled while sending. Success clears the form only after Resend accepts an email and returns an ID. Errors preserve fields so the visitor can retry. The recipient address is not displayed in the contact section.
 - Do not log submitted names, addresses, message bodies, or API keys. Provider failures return generic messages.
 
 ## Verification

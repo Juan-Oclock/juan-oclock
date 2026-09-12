@@ -38,7 +38,7 @@ export function createContactHandler({ env = process.env, fetchImpl = fetch, now
       || typeof submissionId !== 'string' || !/^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i.test(submissionId)
       || (website !== undefined && website !== '')) return failure(400, 'Please check your name, email, and message.');
 
-    if (!env.RESEND_API_KEY?.trim() || !env.CONTACT_FROM_EMAIL?.trim()) return failure(503, 'The form is temporarily unavailable. Please email me directly using the address above.');
+    if (!env.RESEND_API_KEY?.trim() || !env.CONTACT_FROM_EMAIL?.trim()) return failure(503, 'The form is temporarily unavailable. Please try again later.');
     const time = now();
     for (const [key, entry] of attempts) if (entry.until <= time) attempts.delete(key);
     // Vercel sets this header; fall back to a shared bucket outside Vercel.
@@ -65,10 +65,10 @@ export function createContactHandler({ env = process.env, fetchImpl = fetch, now
         headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json', 'Idempotency-Key': `contact/${idempotencyKey}` },
         body, signal: AbortSignal.timeout(10000),
       });
-      if (!response.ok) return failure(502, 'Your message could not be sent. Please try again or email me directly.');
+      if (!response.ok) return failure(502, 'Your message could not be sent. Please try again in a moment.');
       const result = await response.json();
       if (typeof result?.id !== 'string' || !result.id) return failure(502, 'Your message could not be confirmed. Please try again.');
       return Response.json({ ok: true }, { headers: { 'Cache-Control': 'no-store' } });
-    } catch { return failure(502, 'Your message could not be confirmed. Please try again or email me directly.'); }
+    } catch { return failure(502, 'Your message could not be confirmed. Please try again in a moment.'); }
   };
 }

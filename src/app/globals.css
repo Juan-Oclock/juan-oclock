@@ -106,14 +106,6 @@ svg { flex-shrink: 0; }
 .contact { text-align: center; margin-top: 180px; padding-bottom: 125px; }
 .contact h2 { font-size: 50px; letter-spacing: -2px; line-height: 1.2; }
 .contact-description { margin-top: 26px; color: var(--muted); font-size: 18px; }
-.contact-actions { margin-top: 36px; }
-.email-row { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 24px; }
-.email-address { font-size: 14px; color: var(--muted); text-underline-offset: 5px; }
-.email-address:hover { text-decoration: underline; color: var(--foreground); }
-.copy-button { display: grid; place-items: center; background: transparent; border: 0; color: var(--muted); width: 44px; height: 44px; border-radius: 50%; }
-.copy-button:hover { background: #1c201e; color: var(--foreground); }
-.copy-button svg { width: 18px; height: 18px; }
-.copy-feedback { font-size: 13px; color: var(--accent); min-height: 24px; margin-top: 4px; }
 .site-footer { border-top: 1px solid var(--line); max-width: 1320px; width: calc(100% - 64px); margin: auto; }
 .footer-inner { display: flex; align-items: center; justify-content: space-between; padding: 52px 0 60px; gap: 60px; }
 .footer-joke { font-size: 12px; line-height: 1.8; color: var(--muted); }
@@ -214,8 +206,6 @@ svg { flex-shrink: 0; }
 .contact { display: grid; grid-template-columns: .9fr 1.1fr; gap: 95px; text-align: left; }
 .contact h2 { font-size: 62px; line-height: 1.05; }
 .contact-description { line-height: 1.7; }
-.contact-actions { margin-top: 30px; }
-.email-row { justify-content: flex-start; margin-top: 0; }
 .contact-footnote { color: var(--muted); font-size: 14px; line-height: 1.7; max-width: 290px; margin-top: 20px; }
 .contact-form { padding-top: 6px; }
 .contact-form label { display: block; font-size: 14px; color: var(--foreground); }

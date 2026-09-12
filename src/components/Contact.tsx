@@ -1,25 +1,13 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { PiArrowUpRight, PiCheck, PiCopySimple } from 'react-icons/pi';
-import { copyEmail } from '@/lib/experience.mjs';
-
-const email = 'onelasttimejuan@gmail.com';
+import { useRef, useState } from 'react';
+import { PiArrowUpRight } from 'react-icons/pi';
 
 export default function Contact() {
-  const [status, setStatus] = useState('idle');
   const [sending, setSending] = useState(false);
   const [feedback, setFeedback] = useState('');
   const inFlight = useRef(false);
   const submission = useRef({ body: '', id: '' });
-  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  useEffect(() => () => { if (timer.current) clearTimeout(timer.current); }, []);
-  async function handleCopy() {
-    if (timer.current) clearTimeout(timer.current);
-    const result = await copyEmail(email, navigator.clipboard);
-    setStatus(result);
-    timer.current = setTimeout(() => setStatus('idle'), 5000);
-  }
   async function handleSend(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (inFlight.current) return;
@@ -44,14 +32,14 @@ export default function Contact() {
       });
       const result = await response.json();
       if (!response.ok || result.ok !== true) {
-        setFeedback(typeof result.error === 'string' ? result.error : 'Couldn’t send your message. Please try again or email me directly.');
+        setFeedback(typeof result.error === 'string' ? result.error : 'Couldn’t send your message. Please try again in a moment.');
         return;
       }
       setFeedback('Message sent. Thanks for saying hello!');
       form.reset();
       submission.current = { body: '', id: '' };
     } catch {
-      setFeedback('Couldn’t confirm your message was sent. Please try again or email me directly. Your text is still here.');
+      setFeedback('Couldn’t confirm your message was sent. Please try again in a moment. Your text is still here.');
     } finally {
       inFlight.current = false;
       setSending(false);
@@ -62,10 +50,6 @@ export default function Contact() {
       <div className="contact-intro">
       <h2 id="contact-title" data-reveal>Got a “wouldn’t it be cool if…”?</h2>
       <p className="contact-description" data-reveal>Send it over. I like fun ideas and interesting people.</p>
-      <div className="contact-actions" data-reveal>
-        <div className="email-row"><a href={`mailto:${email}`} className="email-address">{email}</a><button type="button" className="copy-button" onClick={handleCopy} aria-label="Copy email address">{status === 'copied' ? <PiCheck aria-hidden="true" /> : <PiCopySimple aria-hidden="true" />}</button></div>
-        <p className="copy-feedback" aria-live="polite" role="status">{status === 'copied' ? 'Email copied. Your move.' : status === 'unavailable' ? 'Couldn’t copy automatically. Select the email address above to copy it.' : ''}</p>
-      </div>
       <p className="contact-footnote">Side project, collaboration, or a particularly good dad joke. I’m listening.</p>
       </div>
       <form className="contact-form" onSubmit={handleSend} aria-busy={sending} data-reveal>
