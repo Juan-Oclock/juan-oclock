@@ -5,6 +5,7 @@
   --foreground: #f3f1eb;
   --muted: #a9adab;
   --accent: #e1c273;
+  --accent-lime: #d4ed7a;
   --line: #303534;
   --surface: #101313;
 }
@@ -385,3 +386,19 @@ svg { flex-shrink: 0; }
 .contact-trap { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .contact-form button:disabled { cursor: wait; opacity: .65; }
 .contact-form input:disabled, .contact-form textarea:disabled { opacity: .7; }
+
+/* Soft lime adds a restrained second accent to project details and actions. */
+.project-status { color: var(--accent-lime); }
+.project-status > span, .status-published > span { background: var(--accent-lime); }
+.arrow-circle { color: var(--accent-lime); border-color: #d4ed7a45; }
+.project-link:is(:hover, :focus-visible) .arrow-circle {
+  background: var(--accent-lime);
+  border-color: var(--accent-lime);
+  color: var(--background);
+}
+.hero .button-light:is(:hover, :focus-visible),
+.contact .button-light:not(:disabled):is(:hover, :focus-visible) {
+  background: var(--accent-lime);
+  border-color: var(--accent-lime);
+  color: var(--background);
+}

@@ -23,7 +23,7 @@ Do not run a development server and a production build concurrently in the same 
 - `src/data/projects.ts`: released project content and external destinations. Add entries to extend the grid. For a future web release, add its platform field and render that in Projects instead of the current iOS label.
 - `src/components/Projects.tsx`: the non-clickable upcoming web-app row.
 - `src/components/{Hero,About,Contact,Footer}.tsx`: narrative and contact copy.
-- `src/app/globals.css`: responsive layout, spacing, Manrope type, dark palette, focus states.
+- `src/app/globals.css`: responsive layout, spacing, Manrope type, dark palette, aqua headings, soft-lime project accents and button interaction states, focus states.
 - `src/components/PortfolioMotion.tsx`: native-scroll GSAP motion. The portrait remains steady. Hero copy enters with a subtle stagger; sections reveal on scroll and project imagery drifts gently on desktop only. Reduced motion is static. Effects clean up across breakpoint changes and unmount.
 
 ## Checks
